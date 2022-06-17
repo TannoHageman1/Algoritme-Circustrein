@@ -24,6 +24,7 @@ namespace AlgoritmeCircusTreinLibrary.Entities
             }
             return bezetheid;
         }
+
         public void AddDier(Dier dier)
         {
             dieren.Add(dier);

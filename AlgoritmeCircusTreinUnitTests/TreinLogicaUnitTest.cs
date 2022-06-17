@@ -18,12 +18,11 @@ namespace AlgoritmeCircusTreinUnitTests
             List<Dier> dieren = new List<Dier>();
             dieren.Add(dierKlein);
             dieren.Add(dierGroot);
-            TreinLogica logica = new TreinLogica();
             Trein trein = new Trein();
 
 
             //Act
-            logica.VulTrein(trein, dieren);
+            trein.VulTrein(dieren);
 
             //Assert
             Assert.AreEqual(trein.WagonList[0].GetDieren()[0], dierKlein);
@@ -39,12 +38,10 @@ namespace AlgoritmeCircusTreinUnitTests
             List<Dier> dieren = new List<Dier>();
             dieren.Add(dierKlein);
             dieren.Add(dierGroot);
-            TreinLogica logica = new TreinLogica();
             Trein trein = new Trein();
 
-
             //Act
-            logica.VulTrein(trein, dieren);
+            trein.VulTrein(dieren);
 
             //Assert
             Assert.AreEqual(trein.WagonList[0].GetDieren()[0], dierKlein);
@@ -60,12 +57,10 @@ namespace AlgoritmeCircusTreinUnitTests
             List<Dier> dieren = new List<Dier>();
             dieren.Add(dierKlein);
             dieren.Add(dierGroot);
-            TreinLogica logica = new TreinLogica();
             Trein trein = new Trein();
 
-
             //Act
-            logica.VulTrein(trein, dieren);
+            trein.VulTrein(dieren);
 
             //Assert
 
@@ -82,12 +77,10 @@ namespace AlgoritmeCircusTreinUnitTests
             List<Dier> dieren = new List<Dier>();
             dieren.Add(dierKlein);
             dieren.Add(dierGroot);
-            TreinLogica logica = new TreinLogica();
             Trein trein = new Trein();
 
-
             //Act
-            logica.VulTrein(trein, dieren);
+            trein.VulTrein(dieren);
 
             //Assert
             Assert.IsNotNull(trein);
@@ -140,32 +133,61 @@ namespace AlgoritmeCircusTreinUnitTests
                 new Dier(false, 5),
                 new Dier(true, 1),
             };
-            TreinLogica logica = new TreinLogica();
             Trein trein = new Trein();
 
-            //Assert
-            logica.VulTrein(trein, dieren);
+            //Act
+            trein.VulTrein(dieren);
 
             //Act
-            foreach(Wagon wagon in trein.WagonList)
+            foreach (Wagon wagon in trein.WagonList)
             {
-                Assert.IsTrue(IsWagonCorrectGevuld(wagon));
+                Assert.IsFalse(GetBezetheid(wagon) < 0 || GetBezetheid(wagon) > 10);
+                foreach(Dier dier in wagon.GetDieren())
+                {
+                    if (dier.IsCarnivoor)
+                    {
+                        Assert.IsFalse(wagon.CarnivoorCheck(dier));
+                    }
+                }
             }
         }
 
-        private bool IsWagonCorrectGevuld(Wagon wagon)
+
+
+        public int GetBezetheid(Wagon wagon)
         {
-            if (wagon.GetBezetheid() < 0 || wagon.GetBezetheid() > 10) return false;
-            
-            foreach(Dier dier in wagon.GetDieren())
+            int bezetheid = 0;
+            foreach (Dier dier in wagon.GetDieren())
             {
-                if (dier.IsCarnivoor)
+                bezetheid += dier.Grootte;
+            }
+            return bezetheid;
+        }
+
+        public bool CarnivoorCheck(Dier dier)
+        {
+            foreach (Dier wagonDier in GetDieren())
+            {
+                if (!dier.IsGroterDan(wagonDier))
                 {
-                    if (wagon.CarnivoorCheck(dier)) return false;
+                    if (wagonDier.IsCarnivoor)
+                    {
+                        return false;
+                    }
+                }
+                else if (dier.IsCarnivoor)
+                {
+                    return false;
                 }
             }
 
             return true;
         }
+
+        public List<Dier> GetDieren()
+        {
+            return dieren;
+        }
+        private List<Dier> dieren;
     }
 }

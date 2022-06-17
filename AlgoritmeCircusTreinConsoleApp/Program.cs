@@ -1,7 +1,6 @@
 ﻿using AlgoritmeCircusTreinLibrary;
 using AlgoritmeCircusTreinLibrary.Entities;
 
-TreinLogica treinLogica = new TreinLogica();
 List<Dier> dieren = new List<Dier>();
 dieren.Add(new Dier(false, 3));
 dieren.Add(new Dier(true, 5));
@@ -10,7 +9,7 @@ dieren.Add(new Dier(true, 1));
 dieren.Add(new Dier(false, 3));
 Trein trein = new Trein();
 
-treinLogica.VulTrein(trein, dieren);
+trein.VulTrein(dieren);
 int index = 1;
 
 foreach (Wagon w in trein.WagonList)

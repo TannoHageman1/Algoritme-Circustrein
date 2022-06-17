@@ -20,5 +20,52 @@ namespace AlgoritmeCircusTreinLibrary.Entities
             WagonList.Add(new Wagon());
 
         }
+
+        public void VulTrein(List<Dier> dieren)
+        {
+            List<Dier> remaining = new List<Dier>(dieren);
+            AddWagon();
+            foreach (Dier dier in dieren)
+            {
+                int index = 0;
+
+                foreach (Wagon wagon in WagonList)
+                {
+                    index++;
+                    bool isMogelijk = true;
+                    if (!wagon.PastDierInWagon(dier))
+                    {
+                        if (index >= WagonList.Count)
+                        {
+                            VulTrein(remaining);
+                            return;
+                        }
+
+                        continue;
+                    }
+
+                    if (!wagon.CarnivoorCheck(dier))
+                    {
+                        isMogelijk = false;
+                    }
+
+                    if (!isMogelijk)
+                    {
+                        if (index >= WagonList.Count)
+                        {
+                            VulTrein(remaining);
+                            return;
+                        }
+
+                        continue;
+                    }
+
+                    wagon.AddDier(dier);
+                    remaining.Remove(dier);
+                    break;
+                }
+            }
+
+        }
     }
 }
